@@ -1,0 +1,11 @@
+src_files:
+  - assets/application.js
+  - assets/spec.js
+
+stylesheets:
+  - stylesheets/**/*.css
+
+helpers:
+  - 'helpers/**/*.nothing'
+
+spec_dir: spec/javascripts
