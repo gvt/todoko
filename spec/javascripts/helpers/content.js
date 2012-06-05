@@ -14,5 +14,5 @@ beforeEach(function() {
 });
 
 afterEach(function() {
-//  jasmine.content().empty();
+  jasmine.content().empty();
 });

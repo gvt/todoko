@@ -1,18 +1,20 @@
-window.Todoko = @Todoko = start: =>
-  console.log "@", Todoko
-  todos = ko.utils.parseJson(localStorage.getItem("todos-knockout"))
-  Todoko.vm = new Todoko.ViewModel(todos || [])
-  ko.applyBindings Todoko.vm
-  console.log "Todoko.vm", Todoko.vm
+window.Todoko =
+  start: =>
+    console.log "start() ..."
+    todos = ko.utils.parseJson(localStorage.getItem("todos-knockout"))
+    Todoko.vm = new Todoko.ViewModel(todos || [])
+    ko.applyBindings Todoko.vm
 
 class Todoko.Todo
   constructor: (title, completed) ->
+    console.log "new Todo ..."
     @title     = ko.observable title
     @completed = ko.observable completed
     @editing   = ko.observable false
 
 class Todoko.ViewModel
   constructor: (todos) ->
+    console.log "new ViewModel"
     @todos = ko.observableArray ko.utils.arrayMap(todos, (todo) ->
       new Todoko.Todo(todo.title, todo.completed)
     )

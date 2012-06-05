@@ -1,8 +1,19 @@
-describe "App", ->
+describe "Todoko", ->
 
-  beforeEach ->
-    jasmine.htmlFixture('index.html')
+  describe "start()", ->
 
-  it "works", ->
-    expect(window.Todoko).toBeDefined()
-    expect(window.Todoko.vm).toBeDefined()
+    beforeEach ->
+#      spyOn(ko, 'applyBindings').andCallThrough()
+#      console.log "ko.applyBindings", ko.applyBindings
+      jasmine.htmlFixture('index.html')
+      window.Todoko.start()
+
+    it "exists as a module", ->
+      expect(window.Todoko).toBeDefined()
+
+    it "populates vm", ->
+      expect(window.Todoko.vm).toBeDefined()
+
+#    it "calls applyBindings", ->
+#      console.log "ko.applyBindings 2", ko.applyBindings
+#      expect(ko.applyBindings).toHaveBeenCalled()
