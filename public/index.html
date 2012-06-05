@@ -11,7 +11,7 @@
 	<!--<![endif]-->
 </head>
 <body>
-	<section id="todoapp">
+	<section id="todoapp" data-bind="element:this">
 		<header id="header">
 			<h1>todos-cof-ko</h1>
 			<input id="new-todo" type="text" data-bind="value: current, valueUpdate: 'afterkeydown', enterKey: add" placeholder="What needs to be done?" autofocus>

@@ -15,22 +15,32 @@ class Todoko.Todo
 class Todoko.ViewModel
   constructor: (todos) ->
     console.log "new ViewModel"
+    @initObservables(todos)
+
+  initObservables: (todos) ->
+    @el = ko.observable() # will contain a jquery object
+
     @todos = ko.observableArray ko.utils.arrayMap(todos, (todo) ->
       new Todoko.Todo(todo.title, todo.completed)
     )
+
     @current = ko.observable()
+
     @completedCount = ko.computed =>
       ko.utils.arrayFilter(@todos(), (todo) ->
         todo.completed()
       ).length
+
     @remainingCount = ko.computed =>
       @todos().length - @completedCount()
+
     @allCompleted = ko.computed
       read: =>
         not @remainingCount()
       write: (newValue) =>
         ko.utils.arrayForEach @todos(), (todo) ->
           todo.completed newValue
+
     ko.computed( =>
       localStorage.setItem "todos-knockout", ko.toJSON(@todos)
     ).extend throttle: 500
