@@ -1,4 +1,4 @@
-describe "Test", ->
+describe "App", ->
 
   beforeEach ->
     jasmine.htmlFixture('index.html')
