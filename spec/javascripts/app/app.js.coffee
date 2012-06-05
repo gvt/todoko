@@ -4,4 +4,5 @@ describe "App", ->
     jasmine.htmlFixture('index.html')
 
   it "works", ->
-    expect(true).toEqual true
+    expect(window.Todoko).toBeDefined()
+    expect(window.Todoko.vm).toBeDefined()
