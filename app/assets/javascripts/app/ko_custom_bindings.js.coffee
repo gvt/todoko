@@ -26,3 +26,21 @@ ko.bindingHandlers.selectAndFocus =
     setTimeout ->
       ko.bindingHandlers.hasfocus.update element, valueAccessor
     , 0
+
+
+##
+# a simple sortable list binding. depends on jquery-ui sortable.
+ko.bindingHandlers.sortableList =
+  init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
+    dragHandle = valueAccessor().dragHandle
+    methodCall = valueAccessor().methodCall
+    throw "need to specify a dragHandle like so: sortableList: {dragHandle: 'jquery-selector-within-the-sortable'}" unless dragHandle
+    throw "need to specify a methodCall like so: sortableList: {methodCall: 'updatePosition'}" unless methodCall
+    sortOpts =
+      handle:  dragHandle
+      opacity: 0.6
+      scroll:  true
+      revert:  300
+      delay:   0
+      update:  methodCall
+    $(element).sortable sortOpts

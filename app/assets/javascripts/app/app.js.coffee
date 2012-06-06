@@ -1,20 +1,20 @@
-window.Todoko =
-  start: =>
-    console.log "start() ..."
-    todos = ko.utils.parseJson(localStorage.getItem("todos-knockout"))
-    Todoko.vm = new Todoko.ViewModel(todos || [])
-    ko.applyBindings Todoko.vm
+window.Todoko = {}
+@startTodoko = ->
+  console.log "start() ..."
+  todos = ko.utils.parseJson(localStorage.getItem("todos-knockout"))
+  window.Todoko.vm = new Todoko.ViewModel(todos || [])
+  ko.applyBindings window.Todoko.vm
+
 
 class Todoko.Todo
   constructor: (title, completed) ->
-    console.log "new Todo ..."
     @title     = ko.observable title
     @completed = ko.observable completed
     @editing   = ko.observable false
 
+
 class Todoko.ViewModel
   constructor: (todos) ->
-    console.log "new ViewModel"
     @initObservables(todos)
 
   initObservables: (todos) ->
@@ -45,8 +45,13 @@ class Todoko.ViewModel
       localStorage.setItem "todos-knockout", ko.toJSON(@todos)
     ).extend throttle: 500
 
+
+  changeTaskPosition: (self, event) =>
+    console.log "changeTaskPosition() ..."
+    @didChangePosition = true
+
   add: =>
-    current = @current().trim()
+    current = @current()?.trim()
     if current
       @todos.push new Todoko.Todo(current)
       @current ""

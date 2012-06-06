@@ -8,10 +8,10 @@
   <script src="/assets/application.js"></script>
 	<!--[if IE]>
 	<script src="/assets/ie.js"></script>
-	<![endif]-->
+	<!--<![endif]-->
 </head>
 <body>
-	<section id="todoapp">
+	<section id="todoapp" data-bind="element:this">
 		<header id="header">
 			<h1>todos-cof-ko</h1>
 			<input id="new-todo" type="text" data-bind="value: current, valueUpdate: 'afterkeydown', enterKey: add" placeholder="What needs to be done?" autofocus>
@@ -19,15 +19,17 @@
 		<section id="main" data-bind="visible: todos().length">
 			<input id="toggle-all" type="checkbox" data-bind="checked: allCompleted">
 			<label for="toggle-all">Mark all as complete</label>
-			<ul id="todo-list" data-bind="foreach: todos">
-				<li data-bind="css: { completed: completed, editing: editing }">
-					<div class="view" data-bind="event: { dblclick: $root.editItem }">
-						<input class="toggle" type="checkbox" data-bind="checked: completed">
-						<label data-bind="text: title"></label>
-						<button class="destroy" data-bind="click: $root.remove"></button>
-					</div>
-					<input class="edit" data-bind="value: title, valueUpdate: 'afterkeydown', enterKey: $root.stopEditing, selectAndFocus: editing, event: { blur: $root.stopEditing }" >
-				</li>
+			<ul id="todo-list" data-bind="sortableList: {dragHandle: '.view', methodCall: changeTaskPosition}, template: {name: 'tplTodo', foreach: todos}">
+        <script id="tplTodo" type="text/html">
+          <li data-bind="css: { completed: completed, editing: editing }">
+            <div class="view" data-bind="event: { dblclick: $root.editItem }">
+              <input class="toggle" type="checkbox" data-bind="checked: completed">
+              <label data-bind="text: title"></label>
+              <button class="destroy" data-bind="click: $root.remove"></button>
+            </div>
+            <input class="edit" data-bind="value: title, valueUpdate: 'afterkeydown', enterKey: $root.stopEditing, selectAndFocus: editing, event: { blur: $root.stopEditing }" >
+          </li>
+        </script>
 			</ul>
 		</section>
 		<footer id="footer" data-bind="visible: completedCount() || remainingCount()">
@@ -38,6 +40,13 @@
 			<button id="clear-completed" data-bind="visible: completedCount, click: removeCompleted">Clear completed (<span data-bind="text: completedCount"></span>)</button>
 		</footer>
 	</section>
+  <script type="text/javascript">
+    $(function()
+      {
+        if (!window.jasmine) startTodoko();
+      }
+    );
+  </script>
 	<footer id="info">
 		<span data-bind="visible: todos().length">Double-click to edit a todo.</span>
 		<p>Original Knockout version from <a href="https://github.com/ashish01/knockoutjs-todos">Ashish Sharma</a></p>

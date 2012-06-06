@@ -19,15 +19,17 @@
 		<section id="main" data-bind="visible: todos().length">
 			<input id="toggle-all" type="checkbox" data-bind="checked: allCompleted">
 			<label for="toggle-all">Mark all as complete</label>
-			<ul id="todo-list" data-bind="foreach: todos">
-				<li data-bind="css: { completed: completed, editing: editing }">
-					<div class="view" data-bind="event: { dblclick: $root.editItem }">
-						<input class="toggle" type="checkbox" data-bind="checked: completed">
-						<label data-bind="text: title"></label>
-						<button class="destroy" data-bind="click: $root.remove"></button>
-					</div>
-					<input class="edit" data-bind="value: title, valueUpdate: 'afterkeydown', enterKey: $root.stopEditing, selectAndFocus: editing, event: { blur: $root.stopEditing }" >
-				</li>
+			<ul id="todo-list" data-bind="sortableList: {dragHandle: '.view', methodCall: changeTaskPosition}, template: {name: 'tplTodo', foreach: todos}">
+        <script id="tplTodo" type="text/html">
+          <li data-bind="css: { completed: completed, editing: editing }">
+            <div class="view" data-bind="event: { dblclick: $root.editItem }">
+              <input class="toggle" type="checkbox" data-bind="checked: completed">
+              <label data-bind="text: title"></label>
+              <button class="destroy" data-bind="click: $root.remove"></button>
+            </div>
+            <input class="edit" data-bind="value: title, valueUpdate: 'afterkeydown', enterKey: $root.stopEditing, selectAndFocus: editing, event: { blur: $root.stopEditing }" >
+          </li>
+        </script>
 			</ul>
 		</section>
 		<footer id="footer" data-bind="visible: completedCount() || remainingCount()">
@@ -39,7 +41,11 @@
 		</footer>
 	</section>
   <script type="text/javascript">
-    $(window.Todoko.start);
+    $(function()
+      {
+        if (!window.jasmine) startTodoko();
+      }
+    );
   </script>
 	<footer id="info">
 		<span data-bind="visible: todos().length">Double-click to edit a todo.</span>
